@@ -12,10 +12,12 @@ spec:
     metadata:
       labels:
         app: graphql-router
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
       containers:
         - name: graphql-router
-          image: ghcr.io/apollographql/router:v2.17.0
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           env:
             - name: APOLLO_ROUTER_CONFIG_PATH
               value: /dist/config/router.yaml

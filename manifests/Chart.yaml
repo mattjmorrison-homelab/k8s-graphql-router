@@ -1,0 +1,5 @@
+apiVersion: v2
+name: homelab-graphql-router
+description: Apollo Router GraphQL supergraph
+version: 0.1.0
+appVersion: "2.17.0"

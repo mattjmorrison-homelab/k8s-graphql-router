@@ -1,0 +1,3 @@
+image:
+  repository: ghcr.io/apollographql/router
+  tag: v2.17.0
