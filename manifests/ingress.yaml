@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: graphql-router
+  namespace: graphql-router
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: graphql.morrisons.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: graphql-router
+                port:
+                  number: 4000

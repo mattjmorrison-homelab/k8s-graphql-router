@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql-router
+  namespace: graphql-router
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphql-router
+  template:
+    metadata:
+      labels:
+        app: graphql-router
+    spec:
+      containers:
+        - name: graphql-router
+          image: ghcr.io/apollographql/router:latest
+          env:
+            - name: APOLLO_ROUTER_CONFIG_PATH
+              value: /dist/config/router.yaml
+            - name: APOLLO_ROUTER_SUPERGRAPH_PATH
+              value: /dist/config/supergraph.graphql
+          ports:
+            - containerPort: 4000
+            - containerPort: 8088
+          volumeMounts:
+            - name: config
+              mountPath: /dist/config/router.yaml
+              subPath: router.yaml
+            - name: config
+              mountPath: /dist/config/supergraph.graphql
+              subPath: supergraph.graphql
+      volumes:
+        - name: config
+          configMap:
+            name: graphql-router-config
