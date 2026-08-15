@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: graphql-router-verify-script
+  namespace: graphql-router
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+data:
+{{- (.Files.Glob "scripts/*").AsConfig | nindent 2 }}
