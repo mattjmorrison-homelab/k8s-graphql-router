@@ -15,13 +15,6 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: pi5-16
-      tolerations:
-        - key: "dedicated"
-          operator: "Equal"
-          value: "pi"
-          effect: "NoSchedule"
       containers:
         - name: graphql-router
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
