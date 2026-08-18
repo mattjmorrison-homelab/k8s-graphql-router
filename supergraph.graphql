@@ -1,5 +1,6 @@
 schema @link(url: "https://specs.apollo.dev/link/v1.0") @link(url: "https://specs.apollo.dev/join/v0.3", for: EXECUTION) {
   query: Query
+  mutation: Mutation
 }
 
 directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
@@ -30,12 +31,24 @@ enum link__Purpose {
 scalar link__Import
 
 enum join__Graph {
-  HDMI_SWITCH @join__graph(name: "hdmi-switch", url: "https://hdmi-switch.morrisons.site/graphql")
+  HDMI_SWITCH @join__graph(name: "hdmi-switch", url: "https://graph-hdmi-switch.morrisons.site/graphql")
 }
 
 scalar join__FieldSet
 
+enum HdmiInput @join__type(graph: HDMI_SWITCH) {
+  GOOGLE_TV @join__enumValue(graph: HDMI_SWITCH)
+  APPLE_TV @join__enumValue(graph: HDMI_SWITCH)
+  PS3 @join__enumValue(graph: HDMI_SWITCH)
+  PS4 @join__enumValue(graph: HDMI_SWITCH)
+  SWITCH @join__enumValue(graph: HDMI_SWITCH)
+}
+
+type Mutation @join__type(graph: HDMI_SWITCH) {
+  setInput(input: HdmiInput!): HdmiInput!
+}
+
 type Query @join__type(graph: HDMI_SWITCH) {
-  hello: String!
+  currentInput: HdmiInput!
 }
 
