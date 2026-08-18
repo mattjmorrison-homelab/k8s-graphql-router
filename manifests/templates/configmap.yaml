@@ -8,6 +8,16 @@ data:
     supergraph:
       listen: 0.0.0.0:4000
       introspection: true
+    cors:
+      policies:
+        - origins:
+            - https://hdmi-switch.morrisons.site
+          methods:
+            - GET
+            - POST
+            - OPTIONS
+          allow_headers:
+            - content-type
     sandbox:
       enabled: true
     homepage:
