@@ -12,28 +12,13 @@ spec:
     metadata:
       labels:
         app: graphql-router
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
+      serviceAccountName: graphql-router
+      imagePullSecrets:
+        - name: graphql-router-zot-pull-secret
       containers:
         - name: graphql-router
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          env:
-            - name: APOLLO_ROUTER_CONFIG_PATH
-              value: /dist/config/router.yaml
-            - name: APOLLO_ROUTER_SUPERGRAPH_PATH
-              value: /dist/config/supergraph.graphql
           ports:
             - containerPort: 4000
             - containerPort: 8088
-          volumeMounts:
-            - name: config
-              mountPath: /dist/config/router.yaml
-              subPath: router.yaml
-            - name: config
-              mountPath: /dist/config/supergraph.graphql
-              subPath: supergraph.graphql
-      volumes:
-        - name: config
-          configMap:
-            name: graphql-router-config
